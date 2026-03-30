@@ -8,11 +8,11 @@ class BookingRequestQueue {
         queue.add(request);
     }
 
-    public boolean hasPendingRequests() {
-        return !queue.isEmpty();
-    }
-
     public Reservation processNextRequest() {
         return queue.poll();
+    }
+
+    public boolean hasPendingRequests() {
+        return !queue.isEmpty();
     }
 }
