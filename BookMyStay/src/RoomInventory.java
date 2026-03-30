@@ -1,8 +1,8 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 class RoomInventory {
-    private Map<String, Integer> inventory = new HashMap<>();
+    private Map<String, Integer> inventory = new LinkedHashMap<>();
 
     public RoomInventory() {
         inventory.put("Single", 5);
@@ -10,16 +10,16 @@ class RoomInventory {
         inventory.put("Suite", 2);
     }
 
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
+    public void setInventory(String roomType, int count) {
+        inventory.put(roomType, count);
     }
 
-    public void decreaseInventory(String roomType) {
-        inventory.put(roomType, inventory.get(roomType) - 1);
+    public Map<String, Integer> getInventoryMap() {
+        return inventory;
     }
 
-    public void printRemainingInventory() {
-        System.out.println("Remaining Inventory:");
+    public void displayInventory() {
+        System.out.println("\nCurrent Inventory:");
         System.out.println("Single: " + inventory.get("Single"));
         System.out.println("Double: " + inventory.get("Double"));
         System.out.println("Suite: " + inventory.get("Suite"));

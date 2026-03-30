@@ -1,41 +1,26 @@
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Queue;
-
-
-
-
-
-
-
+import java.util.Scanner;
 public class Bookmystay {
     public static void main(String[] args) {
-        System.out.println("Concurrent Booking Simulation\n");
+        System.out.println("System Recovery\n");
 
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
-        bookingQueue.addRequest(new Reservation("Abhi", "Single"));
-        bookingQueue.addRequest(new Reservation("Vanmathi", "Double"));
-        bookingQueue.addRequest(new Reservation("Kural", "Suite"));
-        bookingQueue.addRequest(new Reservation("Subha", "Single"));
+        String filePath = "inventory_state.txt";
 
-        RoomInventory inventory = new RoomInventory();
-        RoomAllocationService allocationService = new RoomAllocationService();
-
-        Thread t1 = new Thread(new ConcurrentBookingProcessor(bookingQueue, inventory, allocationService));
-        Thread t2 = new Thread(new ConcurrentBookingProcessor(bookingQueue, inventory, allocationService));
-
-        t1.start();
-        t2.start();
-
-        try {
-            t1.join();
-            t2.join();
-        } catch (InterruptedException e) {
-            System.out.println("Thread execution interrupted.");
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
         }
 
-        System.out.println();
-        inventory.printRemainingInventory();
+        RoomInventory inventory = new RoomInventory();
+        FilePersistenceService persistenceService = new FilePersistenceService();
+
+        persistenceService.loadInventory(inventory, filePath);
+        inventory.displayInventory();
+        persistenceService.saveInventory(inventory, filePath);
     }
 }
