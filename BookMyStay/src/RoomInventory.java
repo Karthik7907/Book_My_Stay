@@ -1,0 +1,4 @@
+
+class RoomInventory {
+    public RoomInventory() {}
+}
