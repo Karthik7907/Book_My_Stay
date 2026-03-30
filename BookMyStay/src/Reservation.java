@@ -1,3 +1,4 @@
+
 class Reservation {
     private String guestName;
     private String roomType;
