@@ -1,30 +1,20 @@
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 public class Bookmystay {
     public static void main(String[] args) {
-        System.out.println("Booking Request Queue\n");
+        System.out.println("Room Allocation Processing");
+        System.out.println("---------------------------");
+        Queue<Reservation> bookingQueue = new LinkedList<>();
+        bookingQueue.add(new Reservation("Abhi", "Single"));
+        bookingQueue.add(new Reservation("Subha", "Single"));
+        bookingQueue.add(new Reservation("Vanmathi", "Single")); // This should fail as we only have 2
+        RoomAllocationService service = new RoomAllocationService();
 
-        // Initialize booking queue
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
-
-        // Create booking requests (Arrival order: Abhi, Subha, Vanmathi)
-        Reservation r1 = new Reservation("Abhi", "Single");
-        Reservation r2 = new Reservation("Subha", "Double");
-        Reservation r3 = new Reservation("Vanmathi", "Suite");
-
-        // Add requests to the queue (FIFO - First In, First Out)
-        bookingQueue.addRequest(r1);
-        bookingQueue.addRequest(r2);
-        bookingQueue.addRequest(r3);
-
-        // Display queued booking requests in the order they arrived
-        int position = 1;
-        while (bookingQueue.hasPendingRequests()) {
-            Reservation current = bookingQueue.processNextRequest();
-            System.out.println("Processing Request #" + (position++) + ":");
-            System.out.println("Guest: " + current.getGuestName());
-            System.out.println("Room Type: " + current.getRoomType());
-            System.out.println("---------------------------");
+        while (!bookingQueue.isEmpty()) {
+            service.processBooking(bookingQueue.poll());
         }
+        System.out.println("---------------------------");
     }
 }
